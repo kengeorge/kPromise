@@ -70,11 +70,12 @@ function forEachItem(func) {
 function forEachField(callFunc) {
     return function(input) {
         let calls = [];
-        for(let kv in Object.entries(input)) {
-            let key = kv[0];
-            let val = kv[1];
-            calls.push(wrap(callFunc, key, val));
+        for(let key in input) {
+            let val = input[key];
+            let func = new P((res, rej) => res(callFunc(key, val)));
+            calls.push(func);
         }
+        log(calls);
         return P.all(calls);
     };
 }
