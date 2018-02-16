@@ -4,10 +4,10 @@
   "description": "\"Personal preference\" helper functions for JS promises.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
-    "type": "git",
+   "type": "git",
     "url": "git+https://github.com/kengeorge/kPromise.git"
   },
   "keywords": [
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/kengeorge/kPromise/issues"
   },
-  "homepage": "https://github.com/kengeorge/kPromise#readme"
+  "homepage": "https://github.com/kengeorge/kPromise#readme",
+  "devDependencies": {
+    "jest": "^22.3.0"
+  }
 }
