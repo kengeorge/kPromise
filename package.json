@@ -1,5 +1,5 @@
 {
-  "name": "kPromise",
+  "name": "kpromise",
   "version": "1.0.0",
   "description": "\"Personal preference\" helper functions for JS promises.",
   "main": "index.js",
