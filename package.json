@@ -1,13 +1,13 @@
 {
   "name": "kpromise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "\"Personal preference\" helper functions for JS promises.",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
-   "type": "git",
+    "type": "git",
     "url": "git+https://github.com/kengeorge/kPromise.git"
   },
   "keywords": [
