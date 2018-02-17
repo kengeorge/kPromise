@@ -1,6 +1,6 @@
 {
   "name": "kpromise",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "\"Personal preference\" helper functions for JS promises.",
   "main": "index.js",
   "scripts": {
