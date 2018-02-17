@@ -75,7 +75,6 @@ function forEachField(callFunc) {
             let func = new P((res, rej) => res(callFunc(key, val)));
             calls.push(func);
         }
-        log(calls);
         return P.all(calls);
     };
 }
@@ -91,12 +90,8 @@ function wrap(func, k, v) {
  */
 function decorate(fieldName, promiseFunc) {
     return function(input) {
-        log("Decorating %s", input);
         return startWith(promiseFunc(input))
-            .then(print("HAVE FIELD"))
-            .then(peek)
             .then((results) => {
-                log("Setting %s on %s to %s", fieldName, input, results);
                 input[fieldName] = results;
                 return input;
             });
