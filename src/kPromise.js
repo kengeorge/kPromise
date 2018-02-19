@@ -11,6 +11,7 @@ module.exports = {
     peek: peek,
 
     startWith: startWith,
+    failWith: failWith,
     get: get,
     forEach: forEach,
     decorate: decorate,
@@ -49,6 +50,10 @@ function startWith(value) {
     return P.resolve(value);
 }
 
+function failWith(value) {
+    return P.reject(value);
+}
+
 function get(field) {
     return (input) => P.resolve(input[field]);
 }
@@ -77,10 +82,6 @@ function forEachField(callFunc) {
         }
         return P.all(calls);
     };
-}
-
-function wrap(func, k, v) {
-    return new P(() => func(k, v));
 }
 
 /**

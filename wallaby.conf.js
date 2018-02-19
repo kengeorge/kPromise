@@ -6,7 +6,6 @@ module.exports = function () {
             type: 'node',
             runner: 'node'
         },
-
         testFramework: 'jest'
     };
 };
