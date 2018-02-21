@@ -49,6 +49,19 @@ describe('kPromise functions', () => {
         await expect(actual).resolves.toEqual(expected);
     });
 
+    test('should iterate over a list of objects', async() => {
+        const givenA = basicObj();
+        const givenB = basicObj();
+        const givenC = basicObj();
+
+        let actual = startWith([givenA, givenB, givenC])
+            .then(forEach((o) => o.one));
+
+        expect.assertions(1);
+        let expected = [1, 1, 1];
+        await expect(actual).resolves.toEqual(expected);
+    });
+
     test('should iterate over an object', async() => {
         const given = givenStart();
 
@@ -73,16 +86,32 @@ describe('kPromise functions', () => {
     const passBefore = k.passBefore;
     test('should pass input before additional arguments', async() => {
         const given = basicObj();
-        const plus = "additional";
+        const plus = {thing: "additional"};
 
-        const mock = jest.fn()
-            .mockReturnValueOnce(10);
+        const when = (input, additional) => {
+            input.added = additional;
+            return input;
+        };
 
-        const when = startWith(given).then(passBefore(mock, plus));
+        const actual = await startWith(given).then(passBefore(when, plus));
 
         expect.assertions(2);
-        await expect(when).resolves.toBe(10);
-        await expect(mock).toHaveBeenCalledWith(given, plus);
+        expect(actual).toBe(given);
+        expect(actual.added).toBe(plus);
+    });
+
+    test('should chain', async() => {
+        const givenA = {name: "A"};
+        const givenB = {name: "B"};
+
+        const when = (o, b) => o.name + " " + b;
+
+        const actual = await startWith([givenA, givenB])
+            .then(forEach(passBefore(when, true)));
+
+        expect.assertions(2);
+        expect(actual[0]).toEqual("A true");
+        expect(actual[1]).toEqual("B true");
     });
 
 });

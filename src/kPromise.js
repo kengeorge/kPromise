@@ -109,7 +109,8 @@ function passBefore() {
     let varArgs = Array.from(arguments);
     let callFunc = varArgs.shift();
     return function(input) {
-        varArgs.unshift(input);
-        return callFunc.apply(undefined, varArgs);
+        let argsCopy = varArgs.slice();
+        argsCopy.unshift(input);
+        return callFunc.apply(undefined, argsCopy);
     };
 }
