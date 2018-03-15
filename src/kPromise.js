@@ -77,11 +77,15 @@ function forEachField(callFunc) {
         let calls = [];
         for(let key in input) {
             let val = input[key];
-            let func = new P((res, rej) => res(callFunc(key, val)));
+            let func = promise((res, rej) => res(callFunc(key, val)));
             calls.push(func);
         }
         return P.all(calls);
     };
+}
+
+function promise(executor) {
+    return new P(executor);
 }
 
 /**

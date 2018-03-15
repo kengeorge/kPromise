@@ -12,7 +12,7 @@ describe('kPromise functions', () => {
     };
 
     const startWith = k.startWith;
-    test('should generate a value promise', async() => {
+    it('should generate a value promise', async() => {
         const given = startWith(1);
 
         expect.assertions(2);
@@ -29,7 +29,7 @@ describe('kPromise functions', () => {
     });
 
     const get = k.get;
-    test('retrieves a field', async() => {
+    it('retrieves a field', async() => {
         const given = givenStart();
 
         expect.assertions(1);
@@ -38,7 +38,7 @@ describe('kPromise functions', () => {
     });
 
     const forEach = k.forEach;
-    test('should iterate over a list', async() => {
+    it('should iterate over a list', async() => {
         const given = [1, 2, 3];
 
         let actual = startWith(given)
@@ -49,7 +49,7 @@ describe('kPromise functions', () => {
         await expect(actual).resolves.toEqual(expected);
     });
 
-    test('should iterate over a list of objects', async() => {
+    it('should iterate over a list of objects', async() => {
         const givenA = basicObj();
         const givenB = basicObj();
         const givenC = basicObj();
@@ -62,7 +62,7 @@ describe('kPromise functions', () => {
         await expect(actual).resolves.toEqual(expected);
     });
 
-    test('should iterate over an object', async() => {
+    it('should iterate over an object', async() => {
         const given = givenStart();
 
         expect.assertions(1);
@@ -72,7 +72,7 @@ describe('kPromise functions', () => {
     });
 
     const decorate = k.decorate;
-    test('should decorate a given field', async() => {
+    it('should decorate a given field', async() => {
         const given = givenStart();
 
         let actual = given.then(decorate('three', (g) => g.one + g.two));
@@ -84,7 +84,7 @@ describe('kPromise functions', () => {
     });
 
     const passBefore = k.passBefore;
-    test('should pass input before additional arguments', async() => {
+    it('should pass input before additional arguments', async() => {
         const given = basicObj();
         const plus = {thing: "additional"};
 
@@ -100,7 +100,7 @@ describe('kPromise functions', () => {
         expect(actual.added).toBe(plus);
     });
 
-    test('should chain', async() => {
+    it('should chain', async() => {
         const givenA = {name: "A"};
         const givenB = {name: "B"};
 
