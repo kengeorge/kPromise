@@ -16,6 +16,7 @@ module.exports = {
     forEach: forEach,
     decorate: decorate,
     passBefore: passBefore,
+    promise: promise
 };
 
 function log() {
