@@ -11,6 +11,7 @@ describe('kPromise functions', () => {
         return startWith(basicObj());
     };
 
+
     const startWith = k.startWith;
     it('should generate a value promise', async() => {
         const given = startWith(1);
@@ -18,6 +19,54 @@ describe('kPromise functions', () => {
         expect.assertions(2);
         await expect(given).toBeInstanceOf(Promise);
         await expect(given).resolves.toBe(1);
+    });
+
+    const promise = k.promise;
+    const tap = k.tap;
+    it('should tap and wait for operation', async() =>{
+        const actual = [0];
+        await startWith(actual)
+            .then(tap((val) => {
+                return promise((res) => {
+                    setTimeout(res, 2000);
+                })
+                .then(() => {
+                    val[val.length] = 1;
+                    return val;
+                });
+            }))
+            .then((val)=> {
+                val[val.length] = 2;
+                return val;
+            });
+
+        expect.assertions[3];
+        expect(actual[0]).toBe(0);
+        expect(actual[1]).toBe(1);
+        expect(actual[2]).toBe(2);
+    });
+
+    const fork = k.fork;
+    it('should tap and continue', async() =>{
+        const actual = [0];
+        await startWith(actual)
+            .then(fork((val) => {
+                return promise((res) => setTimeout(res, 1000))
+                .then(() => {
+                    val[val.length] = 1;
+                    return val;
+                });
+            }))
+            .then((val)=> {
+                val[val.length] = 2;
+                return val;
+            })
+            .then(() => promise((res) => setTimeout(res, 1500)));
+
+        expect.assertions[3];
+        expect(actual[0]).toBe(0);
+        expect(actual[1]).toBe(2);
+        expect(actual[2]).toBe(1);
     });
 
     const failWith = k.failWith;

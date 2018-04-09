@@ -7,6 +7,7 @@ module.exports = {
     log: log,
     pretty: pretty,
     tap: tap,
+    fork: fork,
     print: print,
     peek: peek,
 
@@ -31,7 +32,15 @@ function pretty(data) {
 
 function tap(tapFunc) {
     return function(input) {
-        tapFunc(input);
+        return startWith(tapFunc(input))
+            .then(() => input);
+    }
+}
+
+function fork(tapFunc) {
+    return function(input) {
+        let t = tapFunc(input);
+        console.log(t);
         return input;
     }
 }
