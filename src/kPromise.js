@@ -40,7 +40,6 @@ function tap(tapFunc) {
 function fork(tapFunc) {
     return function(input) {
         let t = tapFunc(input);
-        console.log(t);
         return input;
     }
 }
