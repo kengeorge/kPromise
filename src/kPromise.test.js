@@ -23,19 +23,19 @@ describe('kPromise functions', () => {
 
     const promise = k.promise;
     const tap = k.tap;
-    it('should tap and wait for operation', async() =>{
+    it('should tap and wait for operation', async() => {
         const actual = [0];
         await startWith(actual)
             .then(tap((val) => {
                 return promise((res) => {
                     setTimeout(res, 2000);
                 })
-                .then(() => {
-                    val[val.length] = 1;
-                    return val;
-                });
+                    .then(() => {
+                        val[val.length] = 1;
+                        return val;
+                    });
             }))
-            .then((val)=> {
+            .then((val) => {
                 val[val.length] = 2;
                 return val;
             });
@@ -47,17 +47,17 @@ describe('kPromise functions', () => {
     });
 
     const fork = k.fork;
-    it('should tap and continue', async() =>{
+    it('should tap and continue', async() => {
         const actual = [0];
         await startWith(actual)
             .then(fork((val) => {
                 return promise((res) => setTimeout(res, 1000))
-                .then(() => {
-                    val[val.length] = 1;
-                    return val;
-                });
+                    .then(() => {
+                        val[val.length] = 1;
+                        return val;
+                    });
             }))
-            .then((val)=> {
+            .then((val) => {
                 val[val.length] = 2;
                 return val;
             })
@@ -109,6 +109,25 @@ describe('kPromise functions', () => {
         expect.assertions(1);
         let expected = [1, 1, 1];
         await expect(actual).resolves.toEqual(expected);
+    });
+
+    //TODO would like an in-order iterator
+    it('should iterate sequentially', async() => {
+        const givenA = {main: "1", sublist: ["2", "3"]};
+        const givenB = {main: "4", sublist: ["5", "6"]};
+
+        let actual = "";
+        await startWith([givenA, givenB])
+            .then(forEach(item =>
+                startWith(item)
+                    .then(tap(item => actual += item.main))
+                    .then(get('sublist'))
+                    .then(forEach(subitem => actual += subitem))
+            ));
+
+        expect.assertions(1);
+        console.log(actual);
+        expect(actual).toBe("123456");
     });
 
     it('should iterate over an object', async() => {
