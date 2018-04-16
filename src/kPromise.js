@@ -13,6 +13,7 @@ module.exports = {
 
     startWith: startWith,
     failWith: failWith,
+    filter: filter,
     get: get,
     forEach: forEach,
     decorate: decorate,
@@ -90,6 +91,17 @@ function forEachField(callFunc) {
             calls.push(func);
         }
         return P.all(calls);
+    };
+}
+
+function filter(predicate) {
+    return input => {
+        const found = [];
+        return startWith(input)
+            .then(forEach(i => {
+                if(predicate(i)) found.push(i);
+            }))
+            .then(() => found);
     };
 }
 

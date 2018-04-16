@@ -112,7 +112,7 @@ describe('kPromise functions', () => {
     });
 
     //TODO would like an in-order iterator
-    it('should iterate sequentially', async() => {
+    it.skip('should iterate sequentially', async() => {
         const givenA = {main: "1", sublist: ["2", "3"]};
         const givenB = {main: "4", sublist: ["5", "6"]};
 
@@ -126,7 +126,6 @@ describe('kPromise functions', () => {
             ));
 
         expect.assertions(1);
-        console.log(actual);
         expect(actual).toBe("123456");
     });
 
@@ -138,6 +137,36 @@ describe('kPromise functions', () => {
             .then(forEach((num, val) => num + val)))
             .resolves.toEqual(["one1", "two2"]);
     });
+
+    it('should filter an array of values', async() => {
+        const given = [1, 2, 2, 3, 3, 3];
+
+        const actual = await startWith(given)
+            .then(filter(item => item === 2))
+        ;
+
+        expect.assertions(3);
+        expect(actual).toHaveLength(2);
+        expect(actual[0]).toBe(2);
+        expect(actual[1]).toBe(2);
+    });
+
+    const filter = k.filter;
+    it('should filter an array of objects', async() => {
+        const givenA = {main: "1", sublist: ["2", "3"]};
+        const givenB = {main: "4", sublist: ["5", "6"]};
+        const givenC = {main: "1", sublist: ["7", "8"]};
+        const given = [givenA, givenB, givenC];
+
+        const actual = await startWith(given)
+            .then(filter(item => item.main === "1"))
+        ;
+        expect.assertions(3);
+        expect(actual).toHaveLength(2);
+        expect(actual[0]).toEqual(givenA);
+        expect(actual[1]).toEqual(givenC);
+    });
+
 
     const decorate = k.decorate;
     it('should decorate a given field', async() => {
